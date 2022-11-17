@@ -37,8 +37,8 @@
 <NavBar {loadCourses} {loadServices}/>
 
 <slot />
-<main class="container mx-auto py-32 px-12 lg:pl-80 pr-8 dark:text-white ">
-</main>
+<!-- <main class="container mx-auto py-32 px-12 lg:pl-80 pr-8 dark:text-white ">
+</main> -->
 <Footer/>
 
 <svelte:head>

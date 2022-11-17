@@ -137,7 +137,7 @@
         <DropdownDivider />
       </Dropdown>
     
-      <NavLi href="/services">Experts</NavLi>
+      <NavLi href="/experts">Experts</NavLi>
       <NavLi href="/reviews">Reviews</NavLi>
       {#if $user.uid == null || $user.uid == undefined}
          <!-- content here -->
@@ -151,7 +151,7 @@
              <!-- content here -->
              <Avatar id="avatar-menu" src={ $user.photoURL} />
           {:else}
-             <!-- else content here -->
+             <!-- else content reviewshere -->
              <UserCircle id="avatar-menu"/>
           {/if}
            <NavHamburger on:click={toggle} class1="w-full md:flex md:w-auto md:order-1"/>
