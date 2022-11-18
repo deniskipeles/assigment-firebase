@@ -1,6 +1,7 @@
 <script>
     import ExpertCard from "$lib/components/ExpertCard.svelte";
     import RegisterExpertForm from "$lib/components/RegisterExpertForm.svelte";
+    import { user } from "$lib/store/user";
 
 
     /** @type {import('./$types').PageData} */
@@ -9,9 +10,16 @@
 
 </script>
 
-
-<RegisterExpertForm/>
-{#each experts as item}
+{#if $user.uid}
      <!-- content here -->
-     <ExpertCard expert={item}/>
-{/each}
+     <RegisterExpertForm/>
+{/if}
+<div class="grid grid-flow-col auto-cols-max">
+    {#each experts as item}
+         <!-- content here -->
+         <div>
+             <ExpertCard expert={item}/>
+         </div>
+    {/each}
+
+</div>

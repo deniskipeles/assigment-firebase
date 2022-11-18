@@ -1,5 +1,7 @@
 <script>
   import { user } from "$lib/store/user";
+  import { sub_service_category } from "$lib/store/service";
+  
   import { fetcher } from "$lib/fetcher";
   import { service as sub_services } from "$lib/store/service";
   import { Navbar,Avatar, DropdownHeader, NavBrand, NavHamburger, NavUl, NavLi, Chevron, MegaMenu, DropdownDivider, Dropdown, DropdownItem, Button } from 'flowbite-svelte'
@@ -44,6 +46,18 @@
 		});
 	}
 
+  const serviceFxn =(item)=>{
+    // console.log(item)
+    sub_service_category.set(item.id)
+    goto(`/services/view/${item.id}`,{replaceState:true})
+    // console.log($sub_service_category)
+  }
+  const goToSubServicesFxn =(service,sub)=>{
+    // console.log(item)
+    goto(`/services/views/${service}/${sub}`,{replaceState:true})
+    console.log($sub_service_category)
+  }
+
 
 
 
@@ -60,11 +74,13 @@
     const categoryDocRef = doc(db, "services-categories", id);
     const filters = {
       key:"category",
-      value: categoryDocRef
+      value: categoryDocRef,
+      limit: 2,
+      orderBy: "name"
     }
     const { record, error } = await fetcher("services-sub-categories",filters)
     sub_services.set(record)
-    console.log(record)
+    // console.log(record)
   }
   let siteName = CONSTANTS.siteName
   let siteLogo = CONSTANTS.logo_url
@@ -79,6 +95,7 @@
   <NavUl {hidden}>
       <NavLi href="/">Home</NavLi>
       <NavLi href="/online-courses">Online Courses</NavLi>
+      <NavLi href="/experts">Experts</NavLi>
       <!-- <NavLi on:click={fetchSuperCourses}><Chevron aligned>Online Courses</Chevron></NavLi> -->
       {#if $courses_category.length > 0}
          <!-- <MegaMenu full items={$courses_category} let:item>
@@ -98,6 +115,10 @@
            </div>
          </MegaMenu> -->
       {/if}
+
+
+
+
       <NavLi on:click={fetchSuperServices}><Chevron aligned>Services</Chevron></NavLi>
       {#if $services_category.length > 0}
          <!-- content here -->
@@ -106,18 +127,32 @@
              <div class="font-semibold dark:text-white">{item.name}</div>
            </a> -->
            <div>
+             <!-- <DropdownItem>Add Service</DropdownItem> -->
              <DropdownItem on:click={async()=>{
                await fetchServices(item.id)
              }} class="flex items-center justify-between"><Chevron placement="right">{item.name}</Chevron></DropdownItem>
              <Dropdown placement="right-start">
+               <DropdownItem on:click={serviceFxn(item)} >Add Sub Service</DropdownItem>
                {#each $sub_services as sub_item}
                   <!-- content here -->
                   <DropdownItem>{sub_item.name}</DropdownItem>
                {/each}
              </Dropdown>
-             <span class="text-sm font-light text-gray-500 dark:text-gray-400">{item.description}</span>
+             <span on:click={serviceFxn(item)} class="text-sm font-light text-gray-500 dark:text-gray-400">
+              {item.description}
+             </span>
    
            </div>
+
+           <div slot="extra" class="">
+            <h2 class="mt-4 mb-2 font-semibold text-gray-900 dark:text-white">Online Services Offered</h2>
+            <p class="mb-2 p-0 text-sm font-light text-gray-500 dark:text-gray-300">At {CONSTANTS.siteName}, we have a variety of online services that we offer</p>
+            <a  href="/services/form/create-service" class="inline-flex items-center text-sm font-medium text-blue-600 hover:underline hover:text-blue-600 dark:text-blue-500 dark:hover:text-blue-700">
+                more services
+                <span class="sr-only">Explore our more </span>
+                <svg class="ml-1 w-4 h-4" aria-hidden="true"  fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+            </a>
+        </div>
          </MegaMenu>
       {/if}
       <NavLi id="nav-menu" class="cursor-pointer"><Chevron aligned>Resources</Chevron></NavLi>
@@ -137,7 +172,7 @@
         <DropdownDivider />
       </Dropdown>
     
-      <NavLi href="/experts">Experts</NavLi>
+      
       <NavLi href="/reviews">Reviews</NavLi>
       {#if $user.uid == null || $user.uid == undefined}
          <!-- content here -->

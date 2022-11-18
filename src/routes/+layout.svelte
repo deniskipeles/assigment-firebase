@@ -4,7 +4,7 @@
   
   import Footer from '$lib/components/Footer.svelte';
 	import CONSTANTS from "$lib/CONSTANTS.js";
-	import '../app.postcss';
+	import '../app.css';
 	import {
 		DarkMode
 	} from 'flowbite-svelte';
@@ -36,9 +36,12 @@
 <!-- <Responsive /> -->
 <NavBar {loadCourses} {loadServices}/>
 
-<slot />
-<!-- <main class="container mx-auto py-32 px-12 lg:pl-80 pr-8 dark:text-white ">
-</main> -->
+<div class="dark:bg-gray-800">
+    <main class=" w-full mx-auto">
+      <slot />
+    </main>
+</div>
+
 <Footer/>
 
 <svelte:head>

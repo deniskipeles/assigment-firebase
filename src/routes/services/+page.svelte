@@ -1,6 +1,5 @@
 <script>
 	import CourseCategoryForm from "$lib/components/CourseCategoryForm.svelte";
-	import ProductCard from "$lib/components/ProductCard.svelte";
     import { user } from "$lib/store/user";
 	
 	/** @type {import('./$types').PageData} */

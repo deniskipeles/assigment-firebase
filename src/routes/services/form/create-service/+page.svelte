@@ -1,6 +1,6 @@
+
 <script>
-	import CourseCategoryForm from "$lib/components/CourseCategoryForm.svelte";
-	import ProductCard from "$lib/components/ProductCard.svelte";
+    import AddServiceModalForm from "$lib/components/AddServiceModalForm.svelte";
     import { user } from "$lib/store/user";
 	
 	/** @type {import('./$types').PageData} */
@@ -13,9 +13,10 @@
 
 
 {#if $user.uid}
-	 <!-- content here -->
-	 <CourseCategoryForm/>
+    <AddServiceModalForm/>
 {/if}
+
+
 <div class="md:container md:mx-auto px-4 dark:text-white">
 	<Layout gap={6} class="dark:text-white">
 	  {#each courses as item}

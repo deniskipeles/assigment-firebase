@@ -1,5 +1,5 @@
 // import { collection, query, orderBy, startAfter, limit, getDocs } from "firebase/firestore";  
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { collection, query, where, getDocs, orderBy, limit } from "firebase/firestore";
 import {app,db} from '$lib/firebase.js';
 // import { getFirestore, collection, getDocs } from 'firebase/firestore';
 
@@ -16,10 +16,14 @@ export async function fetcher(table,filters) {
 
 
 
+// import { query, orderBy, limit } from "firebase/firestore";  
 async function getRecord(table, filters) {
     try {
-        const rawRecord = query(collection(db, table), where(filters.key, "==", filters.value));
+
+        // const q = query(citiesRef, orderBy("name"), limit(3));
+        const rawRecord = query(collection(db, table), where(filters.key, "==", filters.value), limit(8) );
         // const rawRecord = collection(db, table);
+        // console.log(rawRecord)
         const recordSnapshot = await (await getDocs(rawRecord));
         const recordList = recordSnapshot.docs.map(doc => {
             const data=doc.data()
@@ -29,8 +33,8 @@ async function getRecord(table, filters) {
             }
         });
         return {
-        record: recordList,
-        error:null
+          record: recordList,
+          error:null
         };
     
   } catch (error) {
